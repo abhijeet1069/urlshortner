@@ -1,33 +1,27 @@
 # URL Shortener – Backend Feature Checklist
 
-This document lists the features required to turn a basic URL shortener into a **solid, backend-focused project**.  
-Features are grouped by priority, from **core functionality** to **professional polish**.
+This document lists the features required to turn a basic URL shortener into a **solid, backend-focused 
+project**. Features are grouped by priority, from **core functionality** to **professional polish**.
 
----
+**Completing Tier 1, then start applying for interviews**
 
 ## Tier 1 — Core Features (Non-Negotiable)
 
 These features define the **minimum viable backend system**.
 
-### 1. URL Shortening
-- Endpoint to accept a long URL
-- Generate and return a short URL
-- Validate input URL format
+### Short Code Generation
+- Long URL  →  shortCode  →  stored in DB
+- Then User hits shortCode  →  lookup DB  →  redirect to long URL
+-  Short URL generation : Use DB ID + Base62 (Professional Way)
 - Reject malformed or unsupported URLs
 
-### 2. Redirect Handling
+### Redirect Handling
 - Redirect short URL to original URL
 - Correct HTTP status code:
   - Decide between `301` (permanent) or `302` (temporary)
 - Handle error cases:
   - Invalid code → `404 Not Found`
   - Expired link → `410 Gone`
-
-### 3. Short Code Generation
-- Deterministic short-code generation strategy
-- Guaranteed uniqueness
-- Collision handling (retry or regenerate)
-- Database-level uniqueness constraint
 
 ### 4. Persistence
 - Store mappings in a database
@@ -36,7 +30,6 @@ These features define the **minimum viable backend system**.
 - No in-memory-only storage
 
 > Completing Tier 1 already puts this project ahead of most demo-level repositories.
-
 ---
 
 ## Tier 2 — Backend Depth (Strong Project)
