@@ -5,6 +5,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
 public class UrlRepository {
     private final JdbcTemplate jdbcTemplate;
@@ -13,11 +15,15 @@ public class UrlRepository {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    private final RowMapper<ShortUrl> rowMapper = (rs,rowNum) ->
+    private static final RowMapper<ShortUrl> mapper = (rs, rowNum) ->
             new ShortUrl(
                     rs.getLong("id"),
                     rs.getString("short_code"),
-                    rs.getString("original_url"),
-                    rs.getInt("click_count")
+                    rs.getString("original_url")
             );
+
+    public List<ShortUrl> findAll() {
+        String sql = "SELECT id, short_code, original_url FROM urls ORDER BY id";
+        return jdbcTemplate.query(sql, mapper);
+    }
 }
