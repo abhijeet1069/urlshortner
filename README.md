@@ -40,6 +40,8 @@ Flow
 ### Short code generation
 
 ```curl
+## Request
+
 curl --location 'http://localhost:8080/api/shorten' \
 --header 'Content-Type: application/json' \
 --data '{
