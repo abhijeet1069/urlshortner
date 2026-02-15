@@ -1,140 +1,81 @@
-# URL Shortener – Backend Feature Checklist
+# URL Shortener - Spring Boot + JDBC + SQLite
 
-This document lists the features required to turn a basic URL shortener into a **solid, backend-focused 
-project**. Features are grouped by priority, from **core functionality** to **professional polish**.
+## Project Overview
 
-**Completing Tier 1, then start applying for interviews**
+This project is a production style backend URL shortener built using Spring Boot, JdbcTemplate and SQLite.
+It converts long URLs into short Base62 codes and redirects users efficiently using database lookup.
 
-## Tier 1 — Core Features (Non-Negotiable)
+The goal of this project was to deeply understand backend fundamentals such as:
 
-These features define the **minimum viable backend system**.
+- Database design
+- REST API development
+- JDBC instead of ORM
+- System design thinking
+- Clean architecture
 
-### Short Code Generation
-- Long URL  →  shortCode  →  stored in DB
-- Then User hits shortCode  →  lookup DB  →  redirect to long URL
--  Short URL generation : Use DB ID + Base62 (Professional Way)
-- Reject malformed or unsupported URLs
+## Architecture
 
-### Redirect Handling
-- Redirect short URL to original URL
-- Correct HTTP status code:
-  - Decide between `301` (permanent) or `302` (temporary)
-- Handle error cases:
-  - Invalid code → `404 Not Found`
-  - Expired link → `410 Gone`
+Client → Spring Boot API → SQLite Database → Redirect
 
-### 4. Persistence
-- Store mappings in a database
-- Indexed lookup on `short_code`
-- Clear schema design
-- No in-memory-only storage
+Flow
 
-> Completing Tier 1 already puts this project ahead of most demo-level repositories.
----
+- User sends long URL.
+- URL stored in database.
+- Auto‑increment ID generated.
+- ID converted to Base62 short code.
+- Short code saved in database.
+- When user visits short URL → database lookup → redirect.
 
-## Tier 2 — Backend Depth (Strong Project)
+## Tech Stack
 
-These features demonstrate **real backend engineering skills**.
+- Language: Java 21
+- Framework: Spring Boot 3.x
+- Database: SQLite
+- Data Access: JdbcTemplate (No Hibernate)
+- Build Tool: Maven
+- Testing: JUnit (Base62 utility tests)
 
-### 5. Expiration Support
-- Optional expiration time per short URL
-- Automatic invalidation after expiry
-- Proper HTTP response (`410 Gone`)
+## API Endpoints
 
-### 6. Click Analytics
-- Track number of redirects
-- Store last-accessed timestamp
-- Atomic updates to avoid lost increments
+### Short code generation
 
-### 7. Concurrency Correctness
-- Handle multiple simultaneous requests
-- Avoid race conditions
-- Proper transactional behavior
+```curl
+curl --location 'http://localhost:8080/api/shorten' \
+--header 'Content-Type: application/json' \
+--data '{
+    "url":"https://mail.google.com/mail/u/0/#inbox/FMfcgzQfBshlFrdnRvwzBWhBcShfLXPC"
+}'
 
-### 8. Error Handling Strategy
-- Centralized exception handling
-- Consistent error response format
-- No stack traces exposed to clients
+## Response
 
-### 9. Input Validation
-- URL length limits
-- Scheme validation (`http`, `https` only)
-- Reject unsafe or unsupported schemes
+{
+    "shortUrl": "http://localhost:8080/d"
+}
 
-### 10. Testing
-- Unit tests for service logic
-- Integration tests for controllers
-- Redirect behavior tested explicitly
+```
 
-> Tier 1 + Tier 2 = **solid backend project**.
+### Short Code Redirect
 
----
+Paste the short URL in browser. The browser will redirect to your original URL
 
-## Tier 3 — Professional Polish (Portfolio Level)
+```curl
 
-These features signal **engineering maturity**.
+GET http://localhost:8080/d
 
-### 11. Short Code Strategy (Explainable)
-Choose and justify one:
-- Base62 encoding of numeric ID
-- Hash-based approach with collision resolution
-- Sequence-based generation
+```
 
-Document the trade-offs.
+## How to Run
 
-### 12. Rate Limiting
-- Prevent abuse of shortening endpoint
-- Simple implementation is sufficient
-- Demonstrates traffic-awareness
+### Prerequisites
 
-### 13. Logging
-- Structured logging
-- Log redirects and failures
-- Optional request correlation ID
+- Java 21
+- Maven
 
-### 14. Configuration Management
-- Configurable base URL
-- Default expiration via configuration
-- Environment profiles (`dev`, `prod`)
+### Steps
 
-### 15. Clean API Design
-- Versioned APIs (`/api/v1`)
-- Clear request/response DTOs
-- No database details exposed
-
----
-
-## Tier 4 — Optional (Advanced / Bonus)
-
-Only attempt after completing previous tiers.
-
-- Database migrations (Flyway or Liquibase)
-- Soft deletes
-- Admin APIs (list, disable URLs)
-- Dockerfile
-- Comprehensive README:
-  - architecture
-  - design decisions
-  - scaling considerations
-
----
-
-## Completion Criteria
-
-This project is considered **complete and solid** if:
-
-- It handles invalid input gracefully
-- It behaves correctly under concurrent access
-- It includes meaningful tests
-- Design decisions are documented
-- It runs with a single command
-
----
-
-## Goal
-
-This project is designed to demonstrate:
-- Backend fundamentals
-- Correctness over hype
-- Thoughtful design decisions
-- Production-oriented thinking
+```bash
+git clone https://github.com/abhijeet1069/urlshortner.git
+cd urlshortner
+mvn spring-boot:run
+```
+Once the application is running, generate your short urls. No DB setup required.
