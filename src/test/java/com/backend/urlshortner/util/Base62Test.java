@@ -12,4 +12,8 @@ class Base62Test {
         assertEquals("a0nX",Base62.encode(2384765));
         assertEquals("1lpoxT",Base62.encode(1232488445));
     }
+
+    @Test
+    void given() {
+    }
 }
