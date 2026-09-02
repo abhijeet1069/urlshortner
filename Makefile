@@ -1,29 +1,21 @@
-APP_NAME=myapp
-CONTAINER_NAME=myapp-container
-
-build-jar:
-	mvn clean package
+.PHONY: build up down restart logs ps
 
 build:
-	docker build -t $(APP_NAME) .
+	docker compose up -d --build
 
-run:
-	docker run -d \
-	-p 8080:8080 \
-	-v $(PWD)/data:/data \
-	--name $(CONTAINER_NAME) \
-	$(APP_NAME)
+up:
+	docker compose up -d
 
-stop:
-	docker stop $(CONTAINER_NAME)
+down:
+	docker compose down
 
-remove:
-	docker rm $(CONTAINER_NAME)
+restart:
+	docker compose restart
 
+# Follow logs
 logs:
-	docker logs -f $(CONTAINER_NAME)
+	docker compose logs -f
 
-rebuild: build-jar build stop remove run
-
-clean:
-	docker rmi $(APP_NAME)
+# Show service status
+ps:
+	docker compose ps

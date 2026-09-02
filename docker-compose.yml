@@ -1,0 +1,51 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+
+    container_name: url-shortener-app
+
+    ports:
+      - "8080:8080"
+
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/urlshortener
+      SPRING_DATASOURCE_USERNAME: urlapp
+      SPRING_DATASOURCE_PASSWORD: satyamx
+
+    depends_on:
+      db:
+        condition: service_healthy
+
+    volumes:
+      - ./data:/data
+
+    restart: unless-stopped
+
+  db:
+    image: postgres:17
+
+    container_name: url-shortener-postgres
+
+    environment:
+      POSTGRES_DB: urlshortener
+      POSTGRES_USER: urlapp
+      POSTGRES_PASSWORD: satyamx
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+    healthcheck:
+      test: ["CMD-SHELL","pg_isready -U urlapp -d urlshortener"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
