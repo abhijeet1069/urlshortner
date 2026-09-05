@@ -2,8 +2,6 @@ package com.backend.urlshortner.model;
 
 import jakarta.persistence.*;
 
-import javax.crypto.ShortBufferException;
-
 @Entity
 @Table(name="urls")
 public class ShortUrl {
