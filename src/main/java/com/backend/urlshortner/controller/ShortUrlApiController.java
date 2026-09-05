@@ -4,10 +4,9 @@ import com.backend.urlshortner.model.ShortUrl;
 import com.backend.urlshortner.service.ShortUrlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -15,24 +14,25 @@ import java.util.Map;
 @RequestMapping("/api")
 public class ShortUrlApiController {
 
-    private final ShortUrlService service;
     private static final Logger log = LoggerFactory.getLogger(ShortUrlApiController.class);
+    private final ShortUrlService service;
+    private final String baseUrl;
 
-    public ShortUrlApiController(ShortUrlService service) {
+    public ShortUrlApiController(ShortUrlService service,
+                                 @Value("${app.base-url}") String baseUrl) {
         this.service = service;
+        this.baseUrl = baseUrl;
     }
 
     @PostMapping("/shorten")
-    public Map<String, String> shorten(@RequestBody Map<String, String> body) {
-        log.info("shorten() invoked");
-        String url = body.get("url");
-        String code = service.createShortUrl(url);
-        return Map.of("shortUrl", "http://localhost:8080/" + code);
+    public Map<String, String> shorten(@RequestBody ShortenRequest request) {
+        log.info("Creating short URL");
+        String code = service.createShortUrl(request.url());
+        return Map.of("shortUrl", baseUrl + "/" + code);
     }
 
     @GetMapping("/all")
     public List<ShortUrl> getAllUrls() {
-        log.info("getAllUrls() invoked");
-        return service.findAll().orElseGet(ArrayList::new);
+        return service.findAll();
     }
 }

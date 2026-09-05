@@ -13,25 +13,24 @@ import java.util.Optional;
 
 @Service
 public class ShortUrlService {
+
     private final UrlRepository repo;
-    private static final Logger log = LoggerFactory.getLogger(ShortUrlService.class);
+
     public ShortUrlService(UrlRepository repo) {
         this.repo = repo;
     }
 
     public String createShortUrl(String originalUrl){
-        long id = repo.insertUrl(originalUrl);
-        String code = Base62.encode(id);
-        repo.updateShortCode(id,code);
-        return code;
+        ShortUrl url = repo.save(new ShortUrl(originalUrl));
+        return Base62.encode(url.getId());
     }
 
     public Optional<ShortUrl> findByCode(String code) {
-        return repo.findByShortCode(code);
+        long id = Base62.decode(code);
+        return repo.findById(id);
     }
 
-    public Optional<List<ShortUrl>> findAll(){
-        log.info("findByCode() invoked");
-        return Optional.ofNullable(repo.findAll());
+    public List<ShortUrl> findAll(){
+        return repo.findAll();
     }
 }
