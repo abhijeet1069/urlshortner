@@ -23,7 +23,7 @@ public class RedirectController {
         return service.findByCode(code)
                 .map(u -> {
                     String url = u.getOriginalUrl();
-                    // ensure http:// or https://
+                    // ensure https://
                     if (!url.startsWith("http")) {
                         url = "https://" + url;
                     }

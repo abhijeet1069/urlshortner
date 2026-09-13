@@ -10,8 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 // Base62 encoding and decoding is fundamental invariant for my application
-@DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
-class Base62Test {
+public class Base62Test {
 
 
     @ParameterizedTest

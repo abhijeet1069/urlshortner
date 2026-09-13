@@ -11,10 +11,11 @@ down:
 
 restart: down up
 
-# Follow logs
-logs:
-	docker compose logs -f
-
 # Show service status
 ps:
 	docker compose ps
+
+# test and generate HTML report
+test:
+	mvn test
+	mvn surefire-report:report
