@@ -1,8 +1,8 @@
-package com.backend.urlshortner.service;
+package com.backend.urlshortner.core.service;
 
-import com.backend.urlshortner.model.ShortUrl;
-import com.backend.urlshortner.repository.UrlRepository;
-import com.backend.urlshortner.util.Base62;
+import com.backend.urlshortner.core.model.ShortUrl;
+import com.backend.urlshortner.core.repository.UrlRepository;
+import com.backend.urlshortner.core.util.Base62;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

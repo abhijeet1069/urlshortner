@@ -1,4 +1,4 @@
-package com.backend.urlshortner.filter;
+package com.backend.urlshortner.core.filter;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;

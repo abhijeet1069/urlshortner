@@ -1,4 +1,4 @@
-package com.backend.urlshortner.util;
+package com.backend.urlshortner.core.util;
 
 public final class Base62 {
 

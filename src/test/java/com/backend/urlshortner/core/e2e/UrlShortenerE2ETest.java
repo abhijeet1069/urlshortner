@@ -1,4 +1,4 @@
-package com.backend.urlshortner.e2e;
+package com.backend.urlshortner.core.e2e;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;

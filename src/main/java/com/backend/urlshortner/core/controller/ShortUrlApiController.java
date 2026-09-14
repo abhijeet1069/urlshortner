@@ -1,7 +1,7 @@
-package com.backend.urlshortner.controller;
+package com.backend.urlshortner.core.controller;
 
-import com.backend.urlshortner.model.ShortUrl;
-import com.backend.urlshortner.service.ShortUrlService;
+import com.backend.urlshortner.core.model.ShortUrl;
+import com.backend.urlshortner.core.service.ShortUrlService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

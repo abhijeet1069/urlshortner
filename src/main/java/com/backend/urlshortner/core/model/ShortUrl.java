@@ -1,4 +1,4 @@
-package com.backend.urlshortner.model;
+package com.backend.urlshortner.core.model;
 
 import jakarta.persistence.*;
 

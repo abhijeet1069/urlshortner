@@ -1,12 +1,9 @@
-package com.backend.urlshortner.controller;
+package com.backend.urlshortner.core.controller;
 
-import com.backend.urlshortner.service.ShortUrlService;
-import org.springframework.http.ResponseEntity;
+import com.backend.urlshortner.core.service.ShortUrlService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-
-import java.net.URI;
 
 @Controller
 public class RedirectController {
